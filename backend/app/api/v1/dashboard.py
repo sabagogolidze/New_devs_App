@@ -34,7 +34,9 @@ async def get_dashboard_summary(
     tenant_id = getattr(current_user, "tenant_id", "default_tenant") or "default_tenant"
     
     revenue_data = await get_revenue_summary(property_id, tenant_id)
-    
+
+    # Create ticket for long term fix That looks like:
+    # DB (NUMERIC) → Python Decimal → JSON string → JS decimal library → display string
     total_revenue_float = float(Decimal(revenue_data['total']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
     
     return {
